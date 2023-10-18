@@ -18,7 +18,7 @@ data_frame = pd.read_csv(URL_file_name)
 URL_list = data_frame['url'].to_list()
 
 # restrict the URL count
-begin = 35000
+begin = 1
 end = 40000
 collection_list = URL_list[begin:end]
 
