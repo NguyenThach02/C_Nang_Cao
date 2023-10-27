@@ -29,54 +29,6 @@ with st.expander("PROJECT DETAILS"):
     st.write('Totally 26584 websites ==> **_16060_ legitimate** websites | **_10524_ phishing** websites')
     st.write('Data set was created in October 2022.')
 
-    # ----- FOR THE PIE CHART ----- #
-    labels = 'phishing', 'legitimate'
-    phishing_rate = int(ml.phishing_df.shape[0] / (ml.phishing_df.shape[0] + ml.legitimate_df.shape[0]) * 100)
-    legitimate_rate = 100 - phishing_rate
-    sizes = [phishing_rate, legitimate_rate]
-    explode = (0.1, 0)
-    fig, ax = plt.subplots()
-    ax.pie(sizes, explode=explode, labels=labels, shadow=True, startangle=90, autopct='%1.1f%%')
-    ax.axis('equal')
-    st.pyplot(fig)
-    # ----- !!!!! ----- #
-
-    st.write('Features + URL + Label ==> Dataframe')
-    st.markdown('label is 1 for phishing, 0 for legitimate')
-    number = st.slider("Select row number to display", 0, 100)
-    st.dataframe(ml.legitimate_df.head(number))
-
-
-    @st.cache
-    def convert_df(df):
-        # IMPORTANT: Cache the conversion to prevent computation on every rerun
-        return df.to_csv().encode('utf-8')
-
-    csv = convert_df(ml.df)
-
-    st.download_button(
-        label="Download data as CSV",
-        data=csv,
-        file_name='phishing_legitimate_structured_data.csv',
-        mime='text/csv',
-    )
-
-    st.subheader('Features')
-    st.write('I used only content-based features. I didn\'t use url-based faetures like length of url etc.'
-             'Most of the features extracted using find_all() method of BeautifulSoup module after parsing html.')
-
-    st.subheader('Results')
-    st.write('I used 7 different ML classifiers of scikit-learn and tested them implementing k-fold cross validation.'
-             'Firstly obtained their confusion matrices, then calculated their accuracy, precision and recall scores.'
-             'Comparison table is below:')
-    st.table(ml.df_results)
-    st.write('NB --> Gaussian Naive Bayes')
-    st.write('SVM --> Support Vector Machine')
-    st.write('DT --> Decision Tree')
-    st.write('RF --> Random Forest')
-    st.write('AB --> AdaBoost')
-    st.write('NN --> Neural Network')
-    st.write('KN --> K-Neighbours')
 
 with st.expander('EXAMPLE PHISHING URLs:'):
     st.write('_https://rtyu38.godaddysites.com/_')
